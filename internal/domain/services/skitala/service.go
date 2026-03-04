@@ -24,7 +24,13 @@ func (srv *Service) Encode(mKey int, str string) (string, error) {
 	subStr := make([][]rune, 0, nKey)
 	for i := 0; i < lenStr; i += nKey {
 		end := min(i+nKey, lenStr)
-		subStr = append(subStr, strRune[i:end])
+		endStr := strRune[i:end]
+		if len(endStr) < nKey {
+			for range nKey - len(endStr) {
+				endStr = append(endStr, ' ')
+			}
+		}
+		subStr = append(subStr, endStr)
 	}
 
 	for i := range nKey {
@@ -62,6 +68,10 @@ func (srv *Service) Decode(mKey int, str string) (string, error) {
 				decoded = append(decoded, subStr[i][j])
 			}
 		}
+	}
+
+	for len(decoded) > 0 && decoded[len(decoded)-1] == ' ' {
+		decoded = decoded[:len(decoded)-1]
 	}
 
 	return string(decoded), nil
