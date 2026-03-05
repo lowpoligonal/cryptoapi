@@ -19,3 +19,25 @@ func FindSymbolInfo(char rune) (category string, index int) {
 	}
 	return "unknown", -1
 }
+
+func MakeAlphMatrix(alph []rune) [][]rune {
+	alphLen := len(alph)
+	var matrixSize int
+	for i := 0; i < (alphLen / 2); i++ {
+		if i*i > alphLen {
+			matrixSize = i
+		}
+	}
+	alphMatrix := make([][]rune, 0, matrixSize)
+	for i := 0; i < alphLen; i += matrixSize {
+		end := min(i+matrixSize, alphLen)
+		endStr := alph[i:end]
+		if len(endStr) < matrixSize {
+			for range matrixSize - len(endStr) {
+				endStr = append(endStr, '*')
+			}
+		}
+		alphMatrix = append(alphMatrix, endStr)
+	}
+	return alphMatrix
+}
