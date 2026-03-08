@@ -22,6 +22,11 @@ type Server struct {
 
 func NewServer() *Server {
 	router := gin.Default()
+	router.Static("/static", "./web/static")
+
+	router.GET("/", func(c *gin.Context) {
+		c.File("./web/static/index.html")
+	})
 
 	atbashCtrl := atbash.NewController(atbashService.NewService())
 	skitalaCtrl := skitala.NewController(skitalaService.NewService())
