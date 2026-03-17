@@ -54,15 +54,13 @@ func (srv *Service) Decode(mKey int, str string) (string, error) {
 
 	var decoded []rune
 
-	nKey := (lenStr-1)/mKey + 1
-
 	subStr := make([][]rune, 0, mKey)
 	for i := 0; i < lenStr; i += mKey {
 		end := min(i+mKey, lenStr)
 		subStr = append(subStr, strRune[i:end])
 	}
 
-	for j := range nKey {
+	for j := range mKey {
 		for i := range len(subStr) {
 			if j < len(subStr[i]) {
 				decoded = append(decoded, subStr[i][j])

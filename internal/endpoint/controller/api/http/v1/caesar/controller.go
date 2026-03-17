@@ -8,8 +8,8 @@ import (
 )
 
 type caesarService interface {
-	Decode(mKey int, str string) (string, error)
-	Encode(mKey int, str string) (string, error)
+	Decode(Key int, str string) (string, error)
+	Encode(Key int, str string) (string, error)
 }
 
 type Controller struct {

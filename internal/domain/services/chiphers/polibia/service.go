@@ -6,6 +6,11 @@ import (
 	"unicode"
 )
 
+const (
+	RusLang = iota // 0
+	EngLang        // 1
+)
+
 type Service struct {
 }
 
@@ -13,7 +18,7 @@ func NewService() *Service {
 	return &Service{}
 }
 
-func (srv *Service) Encode(str string) (string, error) {
+func (srv *Service) Encode(key int, str string) (string, error) {
 	strRune := []rune(str)
 	var encoded []rune
 
@@ -21,10 +26,9 @@ func (srv *Service) Encode(str string) (string, error) {
 	var rows []int
 	var cols []int
 
-	langFound, alphMap, alphMatrix := langFind(strRune)
-
-	if !langFound {
-		return str, errors.New("letters not found")
+	alphMap, alphMatrix, err := getLang(key)
+	if err != nil {
+		return "", err
 	}
 
 	for _, ch := range strRune {
@@ -66,17 +70,16 @@ func (srv *Service) Encode(str string) (string, error) {
 	return string(encoded), nil
 }
 
-func (srv *Service) Decode(str string) (string, error) {
+func (srv *Service) Decode(key int, str string) (string, error) {
 	strRune := []rune(str)
 	var decoded []rune
 
 	var regMask []bool
 	var coordStr []int
 
-	langFound, alphMap, alphMatrix := langFind(strRune)
-
-	if !langFound {
-		return str, errors.New("letters not found")
+	alphMap, alphMatrix, err := getLang(key)
+	if err != nil {
+		return "", err
 	}
 
 	for _, ch := range strRune {
@@ -119,25 +122,13 @@ func (srv *Service) Decode(str string) (string, error) {
 	return string(decoded), nil
 }
 
-func langFind(strRune []rune) (bool, map[rune][2]int, [][]rune) {
-	langFound := false
-	var alphMatrix [][]rune
-	var alphMap map[rune][2]int
-	for _, char := range strRune {
-		alph, _ := dictionary.FindSymbolInfo(char)
-		switch alph {
-		case "rusLow", "rusUp":
-			alphMap = dictionary.RusMap
-			alphMatrix = dictionary.RusMatrix
-			langFound = true
-		case "enLow", "enUp":
-			alphMap = dictionary.EngMap
-			alphMatrix = dictionary.EngMatrix
-			langFound = true
-		}
-		if langFound {
-			break
-		}
+func getLang(key int) (map[rune][2]int, [][]rune, error) {
+	switch key {
+	case RusLang:
+		return dictionary.RusMap, dictionary.RusMatrix, nil
+	case EngLang:
+		return dictionary.EngMap, dictionary.EngMatrix, nil
+	default:
+		return nil, nil, errors.New("unsupported language key")
 	}
-	return langFound, alphMap, alphMatrix
 }

@@ -8,8 +8,8 @@ import (
 )
 
 type polibiaService interface {
-	Decode(str string) (string, error)
-	Encode(str string) (string, error)
+	Decode(key int, str string) (string, error)
+	Encode(key int, str string) (string, error)
 }
 
 type Controller struct {
@@ -36,7 +36,7 @@ func (h *Controller) encode(c *gin.Context) {
 		return
 	}
 
-	res, err := h.service.Encode(req.Text)
+	res, err := h.service.Encode(req.Key, req.Text)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -52,7 +52,7 @@ func (h *Controller) decode(c *gin.Context) {
 		return
 	}
 
-	res, err := h.service.Decode(req.Text)
+	res, err := h.service.Decode(req.Key, req.Text)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
