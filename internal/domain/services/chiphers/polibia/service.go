@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	RusLang = iota // 0
-	EngLang        // 1
+	RusLang = iota
+	EngLang
 )
 
 type Service struct {
