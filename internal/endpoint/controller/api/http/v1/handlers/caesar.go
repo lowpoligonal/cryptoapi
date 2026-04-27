@@ -13,7 +13,7 @@ func NewCaesarHandler() *CaesarHandler {
 	return &CaesarHandler{service: caesarService.NewService()}
 }
 
-func (h *CaesarHandler) Handle(mode string, req response.Request) (string, error) {
+func (h *CaesarHandler) Handle(mode string, req response.Response) (string, error) {
 	if mode == "encode" {
 		return h.service.Encode(req.KeyInt, req.Text)
 	}

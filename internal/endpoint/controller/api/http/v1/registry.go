@@ -4,11 +4,14 @@ import "cryptoapi/internal/endpoint/controller/api/http/v1/handlers"
 
 func NewRegistry() map[string]handlers.ChipherHandler {
 	return map[string]handlers.ChipherHandler{
-		"atbash":    handlers.NewAtbashHandler(),
-		"caesar":    handlers.NewCaesarHandler(),
-		"gronsfeld": handlers.NewGronsfeldHandler(),
-		"polibia":   handlers.NewPolibiaHandler(),
-		"skitala":   handlers.NewSkitalaHandler(),
-		"vigenere":  handlers.NewVigenereHandler(),
+		"atbash":     handlers.NewAtbashHandler(),
+		"caesar":     handlers.NewCaesarHandler(),
+		"gronsfeld":  handlers.NewGronsfeldHandler(),
+		"polibia":    handlers.NewPolibiaHandler(),
+		"skitala":    handlers.NewSkitalaHandler(),
+		"vigenere":   handlers.NewVigenereHandler(),
+		"vernam":     handlers.NewVernamHandler(),
+		"hillsystem": handlers.NewHillSystemHandler(),
+		"playfair":   handlers.NewPlayfairHandler(),
 	}
 }

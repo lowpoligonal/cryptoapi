@@ -1,6 +1,6 @@
 package vigenere
 
-import "cryptoapi/internal/domain/dictionary"
+import "cryptoapi/pkg/dictionary"
 
 type Service struct {
 }
@@ -22,7 +22,7 @@ func (srv *Service) Encode(key, str string) (string, error) {
 		keyChar := keyRune[keyPos%len(keyRune)]
 		_, shift := dictionary.FindSymbolInfo(keyChar)
 
-		newIdx := (idx + shift) % len(dictionary.Dictionary[alph])
+		newIdx := (idx + (shift)) % len(dictionary.Dictionary[alph])
 		encoded = append(encoded, dictionary.Dictionary[alph][newIdx])
 
 		keyPos++
@@ -44,7 +44,7 @@ func (srv *Service) Decode(key, str string) (string, error) {
 		keyChar := keyRune[keyPos%len(keyRune)]
 		_, shift := dictionary.FindSymbolInfo(keyChar)
 
-		newIdx := (idx - shift + alphLen*2) % alphLen
+		newIdx := (idx - shift + alphLen*10) % alphLen
 		decoded = append(decoded, dictionary.Dictionary[alph][newIdx])
 
 		keyPos++

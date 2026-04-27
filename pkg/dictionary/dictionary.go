@@ -1,5 +1,7 @@
 package dictionary
 
+import "errors"
+
 var Dictionary = map[string][]rune{
 	"rusLow":  []rune("абвгдеёжзийклмнопрстуфхцчшщъыьэюя"),
 	"rusUp":   []rune("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"),
@@ -8,6 +10,17 @@ var Dictionary = map[string][]rune{
 	"numbers": []rune("0123456789"),
 	"special": []rune("\n\t !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"),
 }
+
+var KeyboardPrintableRunes = []rune(
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+		"abcdefghijklmnopqrstuvwxyz" +
+		"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
+		"абвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
+		"0123456789" +
+		" !\"#$%&№'()*+,-./:;<=>?@[\\]^_`{|}~\n",
+)
+
+var LenPrintableRunes = len(KeyboardPrintableRunes)
 
 var RusMatrix = [][]rune{
 	[]rune("АБВГДЕ"), []rune("ЁЖЗИЙК"), []rune("ЛМНОПР"), []rune("СТУФХЦ"), []rune("ЧШЩЪЫЬ"), []rune("ЭЮЯ.,!"),
@@ -34,7 +47,18 @@ var EngMap = map[rune][2]int{
 	'V': {4, 0}, 'W': {4, 1}, 'X': {4, 2}, 'Y': {4, 3}, 'Z': {4, 4},
 }
 
-func FindSymbolInfo(char rune) (category string, index int) {
+var FillerRune = '\x00'
+
+func GetIndex(char rune) (int, error) {
+	for i, r := range KeyboardPrintableRunes {
+		if r == char {
+			return i, nil
+		}
+	}
+	return -1, errors.New("непечатный символ")
+}
+
+func FindSymbolInfo(char rune) (string, int) {
 	for key, alphabet := range Dictionary {
 		for i, r := range alphabet {
 			if r == char {
@@ -42,5 +66,5 @@ func FindSymbolInfo(char rune) (category string, index int) {
 			}
 		}
 	}
-	return "unknown", -1
+	return "", -1
 }

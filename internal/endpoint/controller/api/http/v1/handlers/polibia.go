@@ -13,7 +13,7 @@ func NewPolibiaHandler() *PolibiaHandler {
 	return &PolibiaHandler{service: polibiaService.NewService()}
 }
 
-func (h *PolibiaHandler) Handle(mode string, req response.Request) (string, error) {
+func (h *PolibiaHandler) Handle(mode string, req response.Response) (string, error) {
 	if mode == "encode" {
 		return h.service.Encode(req.KeyInt, req.Text)
 	}

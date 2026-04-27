@@ -4,16 +4,18 @@ import (
 	"context"
 	"net/http"
 
-	chipher "cryptoapi/internal/endpoint/controller/api/http/v1"
-
 	"github.com/gin-gonic/gin"
 )
+
+type ChipherController interface {
+	Init(r *gin.RouterGroup)
+}
 
 type Server struct {
 	httpServer *http.Server
 }
 
-func NewServer() *Server {
+func NewServer(controller ChipherController) *Server {
 	router := gin.Default()
 
 	router.Static("/static", "./web/static")
@@ -21,10 +23,8 @@ func NewServer() *Server {
 		c.File("./web/static/index.html")
 	})
 
-	chipherController := chipher.NewController()
-
 	api := router.Group("/api")
-	chipherController.Init(api)
+	controller.Init(api)
 
 	return &Server{
 		httpServer: &http.Server{

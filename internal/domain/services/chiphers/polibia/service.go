@@ -1,7 +1,7 @@
 package polibia
 
 import (
-	"cryptoapi/internal/domain/dictionary"
+	"cryptoapi/pkg/dictionary"
 	"errors"
 	"unicode"
 )

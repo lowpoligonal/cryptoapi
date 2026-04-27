@@ -13,6 +13,6 @@ func NewAtbashHandler() *AtbashHandler {
 	return &AtbashHandler{service: atbashService.NewService()}
 }
 
-func (h *AtbashHandler) Handle(mode string, req response.Request) (string, error) {
+func (h *AtbashHandler) Handle(mode string, req response.Response) (string, error) {
 	return h.service.Transform(req.Text)
 }

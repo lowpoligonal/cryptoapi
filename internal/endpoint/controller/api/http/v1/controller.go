@@ -41,7 +41,7 @@ func (h *Controller) handle(c *gin.Context, mode string) {
 		return
 	}
 
-	var req response.Request
+	var req response.Response
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

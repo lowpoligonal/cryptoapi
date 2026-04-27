@@ -1,6 +1,6 @@
 package gronsfeld
 
-import "cryptoapi/internal/domain/dictionary"
+import "cryptoapi/pkg/dictionary"
 
 type Service struct {
 }

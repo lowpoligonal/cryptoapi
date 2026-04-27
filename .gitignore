@@ -2,3 +2,5 @@ web
 ignore.txt
 main.exe
 .env
+backups
+ignore.txt
